@@ -1,5 +1,6 @@
 import App from './App';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, cleanup, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 
 const renderApp = () => render(<App />);
@@ -25,8 +26,14 @@ describe('Group React Tests in a Test Suite using describe ', () => {
     fireEvent.input(input, {
       target: { value: 'Steve' },
     });
-    const addButton = getByTestId('submit-button');
-    fireEvent.click(addButton);
+    //1st way to Click a button using fireEvent
+    // const addButton = getByTestId('submit-button');
+    // fireEvent.click(addButton);
+
+    //2nd way to Click a button using userEvent
+    const addButton = screen.getByRole('button');
+    userEvent.click(addButton);
+
     const firstListElement = getByTestId('list-item0');
     expect(firstListElement).toHaveTextContent('Steve');
   });
